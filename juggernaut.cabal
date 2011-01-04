@@ -1,0 +1,24 @@
+Name:            juggernaut
+Version:         0.0
+Description:     makefile generator for dependencies up or down stream.
+License:         BSD3
+License-file:    LICENSE
+Author:          Mark Hibberd
+Maintainer:      mark@hibberd.id.au
+Build-Type:      Simple
+Cabal-Version:   >=1.2
+
+Library
+  Hs-Source-Dirs:  src tests
+  Exposed-Modules: Juggernaut.Cli
+                   Juggernaut.Api
+  GHC-Options:     -Wall
+  Build-Depends:   base
+
+Executable juggernaut
+  Hs-Source-Dirs:  src tests
+  Main-is:         Main.hs
+  Build-Depends:   base
+  Other-Modules:   Juggernaut.Cli
+                   
+

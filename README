@@ -1,0 +1,30 @@
+NAME
+        juggernaut - generate makefile streams for a depenendency set
+
+DESCRIPTION
+        Juggernaut is small haskell api used to generate a make file
+        for doing upstream/downstream builds of a dependency set.
+
+        It currently only generates a basic skeleton of a makefile. In
+        future the plan is to generate an include file or a complete 
+        makefile based upon some configuration options.
+
+        The name juggernaut has been used for hysterical raisins stemming
+        from an old ant build project.
+
+USAGE
+        T.B.A.
+
+STATE
+        The `juggernaut` library is experimental only and will be 
+        highly volatile for the near future.
+
+AUTHOR
+        Mark Hibberd <mark@hibberd.id.au>
+
+NOTES
+        1. official repository
+           https://github.com/markhibberd/juggernaut
+        2. license (3 point BSD style)
+           https://github.com/markhibberd/juggernaut/blob/master/LICENSE
+
