@@ -2,24 +2,31 @@ module Juggernaut.Dependency where
 
 import Data.List
 
-data Module = Mx String FilePath (String -> String) [Module]
+data Module = Mx String [Module] deriving Show
 
 name :: Module -> String
-name (Mx n _ _ _) = n
+name (Mx n _) = n
 
 dependencies :: Module -> [Module]
-dependencies (Mx _ _ _ ds) = ds
+dependencies (Mx _ ds) = ds
 
 names :: [Module] -> [String]
 names = map name
+
+upstream :: String -> [Module] -> [[Module]]
+upstream n ms =  takeWhile (\ls -> notElem n (names ls)) (stratify ms)
+
+downstream :: String -> [Module] -> [[Module]]
+downstream n ms = tail $ dropWhile (\ls -> notElem n (names ls)) (stratify ms)
 
 stratify :: [Module] -> [[Module]]
 stratify = stratify' []
   where
     stratify' :: [Module] -> [Module] -> [[Module]]
-    stratify' ms done = let (exe, delay) = (layer ms done)
-                        in exe : (stratify' done delay)
-
+    stratify' _ [] = []
+    stratify' done ms = let (exe, delay) = (layer ms done)
+                        in exe : (stratify' (exe ++ done) delay)
+                           
 unresolved :: Module -> [Module] -> [Module]
 unresolved = unresolved'. dependencies
   where
