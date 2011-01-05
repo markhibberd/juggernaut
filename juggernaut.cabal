@@ -12,6 +12,7 @@ Library
   Hs-Source-Dirs:  src tests
   Exposed-Modules: Juggernaut.Cli
                    Juggernaut.Api
+                   Juggernaut.Dependency
   GHC-Options:     -Wall
   Build-Depends:   base
 

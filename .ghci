@@ -1,0 +1,6 @@
+:l tests/Test/Juggernaut/Api.hs 
+:m + Test.Juggernaut.Api
+:m + Juggernaut.Cli
+:m + Juggernaut.Api
+:m + Juggernaut.Dependency
+:set -Wall
