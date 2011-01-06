@@ -1,0 +1,12 @@
+#!/usr/bin/runhaskell
+
+import Juggernaut.Api
+
+modules = [
+    ("fred", "someother/libs", []),
+    ("barney", "lib/run", ["fred"]),
+    ("bambam", "lib/run", ["barney"]),
+    ("homer", "lib/run", ["fred", "barney"])
+  ]
+        
+main = putStrLn $ juggernaut modules

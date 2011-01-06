@@ -10,16 +10,9 @@ Cabal-Version:   >=1.2
 
 Library
   Hs-Source-Dirs:  src tests
-  Exposed-Modules: Juggernaut.Cli
-                   Juggernaut.Api
+  Exposed-Modules: Juggernaut.Api
                    Juggernaut.Dependency
   GHC-Options:     -Wall
   Build-Depends:   base
-
-Executable juggernaut
-  Hs-Source-Dirs:  src tests
-  Main-is:         Main.hs
-  Build-Depends:   base
-  Other-Modules:   Juggernaut.Cli
                    
 

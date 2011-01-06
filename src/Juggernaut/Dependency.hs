@@ -1,15 +1,32 @@
 module Juggernaut.Dependency where
 
-data Module = Mx String [Module] deriving Show
+import Data.Maybe 
+
+data Module = Mx String FilePath String [(Module, FilePath)] deriving Show
 
 name :: Module -> String
-name (Mx n _) = n
+name (Mx n _ _ _) = n
 
 names :: [Module] -> [String]
 names = map name
 
-dependencies :: Module -> [Module]
-dependencies (Mx _ ds) = ds
+named :: [(Module, FilePath)] -> [String]
+named ds = map name (map (\(m, _) -> m) ds)
+
+dependencies :: Module -> [(Module, FilePath)]
+dependencies (Mx _ _ _ ds) = ds
+
+dependenciesd :: Module -> [Module]
+dependenciesd (Mx _ _ _ ds) = map (\(m, _) -> m) ds
+
+buildcmd :: Module -> String
+buildcmd (Mx _ _ b _) = b
+  
+artifact :: Module -> FilePath
+artifact (Mx _ a _ _) = a
+
+findmodule :: String -> [Module] -> Maybe Module
+findmodule n ms = listToMaybe $ filter (\m -> (name m) == n) ms
 
 upstream :: String -> [Module] -> [[Module]]
 upstream n ms =  takeWhile (\ls -> notElem n (names ls)) (stratify ms)
@@ -26,7 +43,7 @@ stratify = stratify' []
                         in exe : (stratify' (exe ++ done) delay)
                            
 unresolved :: Module -> [Module] -> [Module]
-unresolved = unresolved'. dependencies
+unresolved = unresolved'. dependenciesd
   where
     unresolved' :: [Module] -> [Module] -> [Module]
     unresolved' ds done = filter (\d -> notElem (name d) (names done)) ds
