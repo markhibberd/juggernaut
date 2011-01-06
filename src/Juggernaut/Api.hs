@@ -14,15 +14,11 @@ pulls :: Dependencies -> [String]
 pulls = map pull
 
 
-
-
 up :: Dependency -> String
 up (d, ds) = d ++ "-up: " ++ (join (map (\x -> x ++ "-up ") ds)) ++ "\n\t${MAKE} " ++ d ++ "\n\n"
 
 ups :: Dependencies -> [String]
 ups = map up
-
-
 
 
 isDownstream :: String -> Dependency -> Bool

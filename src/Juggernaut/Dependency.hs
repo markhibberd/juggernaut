@@ -1,17 +1,15 @@
 module Juggernaut.Dependency where
 
-import Data.List
-
 data Module = Mx String [Module] deriving Show
 
 name :: Module -> String
 name (Mx n _) = n
 
-dependencies :: Module -> [Module]
-dependencies (Mx _ ds) = ds
-
 names :: [Module] -> [String]
 names = map name
+
+dependencies :: Module -> [Module]
+dependencies (Mx _ ds) = ds
 
 upstream :: String -> [Module] -> [[Module]]
 upstream n ms =  takeWhile (\ls -> notElem n (names ls)) (stratify ms)
@@ -31,14 +29,14 @@ unresolved :: Module -> [Module] -> [Module]
 unresolved = unresolved'. dependencies
   where
     unresolved' :: [Module] -> [Module] -> [Module]
-    unresolved' ds done = [d | d <- ds, notElem (name d) (names done)]
+    unresolved' ds done = filter (\d -> notElem (name d) (names done)) ds
 
---    (toexecute, delayed)
 layer :: [Module] -> [Module] -> ([Module], [Module])
-layer ms done = foldl (\acc m -> 
+layer ms done = foldl (\(exe, delay) m -> 
                         if null (unresolved m done) then 
-                          ((fst acc) ++ [m], snd acc) 
-                        else (fst acc, (snd acc) ++ [m])
+                          (exe ++ [m], delay) 
+                        else 
+                          (exe, delay ++ [m])
                       ) ([], []) ms
                     
                                 
